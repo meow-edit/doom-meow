@@ -1,0 +1,122 @@
+#+title:    :editor meow
+#+subtitle: lightweight, modern modal editing
+#+created:  May 19, 2024
+#+since:    whenever v3 happens
+
+* TODO Description :unfold:
+
+TODO topic sentence
+
+- A 'port' of Doom's leader and localleader bindings to Meow's Keypad state.
+
+- A cursor configuration that uses the 'bar' cursor shape to indicate the way
+  Emacs' cursor positioning differs from other modal editors, with
+  ~cursor-blink-mode~ rather than a shape change to indicate a switch to Insert
+  state.
+
+- Numerous other tweaks, including to the suggested bindings, to integrate with
+  Doom better.
+
+TODO note: minimal modal 'layer'; do Emacs tutorial, Evil users
+
+** Maintainers
+- [[doom-user:][@nobody]]
+
+[[doom-contrib-maintainer:][Become a maintainer?]]
+
+** TODO Module flags
+- +qwerty, +dvorak, etc :: Set up Meow's suggested bindings for the respective
+  layouts. If you don't use any of these, you will need to set up bindings
+  yourself; see (link to docs) for examples.
+  You will probably want to look at the files responsible for setting up the
+  bindings (in this module's =autoload/= directory) in order to be aware of any
+  tweaks applied.
+
+** Packages
+- [[doom-package:meow]]
+
+** Hacks
+- The localleader bindings are accomplished via a hack.
+
+** TODO Changelog
+# This section will be machine generated. Don't edit it by hand.
+/This module does not have a changelog yet./
+
+* Installation
+
+~mkdir -p ~/.doom.d/modules/editor && git clone <this-module-url> ~/.doom.d/modules/editor/meow~
+
+[[id:01cffea4-3329-45e2-a892-95a384ab2338][Enable this module in your ~doom!~ block.]]
+(add =(meow +your-desired-flags...)= after the =:editor= section in =init.el=)
+
+The leader and localleader bindings are defined in [[doom-module::default
++bindings]], so that module is required for them to work.
+
+This module will not work smoothly with [[doom-module::editor evil]],
+[[doom-module::editor god]], or [[doom-module::editor objed]]. You must disable those
+modules in your ~doom!~ block to use this one.
+
+* TODO Usage
+#+begin_quote
+ 󱌣 /This module's usage documentation is incomplete./ [[doom-contrib-module:][Complete it?]]
+#+end_quote
+
+Please refer to Meow's docs (TODO link) for any information not related to Doom
+or this module.
+
+** TODO Leader and localleader integration
+Briefly explain how it's implemented (Keypad, M-SPC, etc) and how to bind keys
+to them.
+
+* TODO Configuration
+#+begin_quote
+ 󱌣 /This module's configuration documentation is incomplete./ [[doom-contrib-module:][Complete it?]]
+#+end_quote
+
+** TODO Mode-specific Meow bindings
+Link to the issue where this is discussed.
+
+** TODO Disabling for certain modes
+Explain EMACS state and how to use it.
+
+** ~map!~ vs ~meow-define-keys~
+
+Doom's ~map!~ and Meow's ~meow-define-keys~ are largely equivalent in terms of
+functionality. ~(map! :map meow-normal-state-keymap ...)~ and ~(meow-define-keys
+'normal ...)~ (and ~(meow-normal-define-keys ...)~) will do the same thing, as
+far as this author is aware.
+
+There is one exception - when binding a key to another key, ~meow-define-keys~
+generates a command to execute that key, and binds to that. This isn't
+explicitly supported by ~map!~, and when you try it, it binds the key directly
+without a command wrapping it. This binding seems to get overridden by any
+command bound to the same key.
+
+** TODO changing 'word', 'symbol' definitions
+Include if my PR gets merged.
+
+* Troubleshooting
+[[doom-report:][Report an issue?]]
+
+** Prefix key descriptions in =which-key= popup
+These do not show up properly when Keypad state is used. It is unclear where to
+look for the source of the problem. The previous module also had [[https://github.com/meow-edit/doom-meow/issues/5][this issue]].
+
+** Undo and [[doom-package:undo-fu]]
+Meow's ~meow-undo~ expects the command bound to ~meow--kbd-undo~ (default =C-/=)
+to behave like Emacs' built-in ~undo~ command. Undo-Fu remaps this command to
+~undo-fu-only-undo~, which behaves differently, so ~meow-undo~ doesn't work
+properly. Currently, the only workaround is to stop using Undo-Fu and learn
+Emacs' default undo mechanism:
+#+begin_src emacs-lisp
+;; In $DOOMDIR/packages.el
+(package! undo-fu :disable t)
+#+end_src
+
+* Frequently asked questions
+/This module has no FAQs yet./ [[doom-suggest-faq:][Ask one?]]
+
+* TODO Appendix
+#+begin_quote
+ 󱌣 This module has no appendix yet. [[doom-contrib-module:][Write one?]]
+#+end_quote
