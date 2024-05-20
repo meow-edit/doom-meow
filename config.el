@@ -180,4 +180,15 @@ comments. Prevent that from running if necessary."
 
   ;; Popups will be in Motion state, and Doom's popup management relies on
   ;; `doom-escape-hook'. So we can't have <escape> bound to `ignore'.
-  (meow-motion-overwrite-define-key '("<escape>" . doom/escape)))
+  (meow-motion-overwrite-define-key '("<escape>" . doom/escape))
+
+;;;; Emacs tutorial
+  ;; It teaches the default bindings, so make it start in our Emacs state.
+  (defadvice! +meow-emacs-tutorial-a (&rest _)
+    :after #'help-with-tutorial
+    (+meow-toggle-emacs-state)
+    (insert
+     (propertize
+      "Meow: this Tutorial buffer has been started in Emacs state. Meow
+bindings are not active.\n\n"
+      'face 'warning))))
