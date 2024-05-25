@@ -20,17 +20,12 @@
   "BEACON cursor face."
   :group 'meow)
 
-
-(defvar-keymap meow-emacs-state-keymap
-  :doc "Keymap for EMACS state.
-Should only contain `+meow-toggle-emacs-state'."
-  ;; We use 'C-]' as our binding to toggle this state, both in Motion and Emacs
-  ;; states. This binding was chosen based on the notion that it is rare to use
-  ;; its default binding `abort-recursive-edit'. It is rare to encounter
-  ;; recursive editing levels outside the minibuffer, and that specific case is
-  ;; handled by `doom/escape'.
-  ;; If it is really needed, `abort-recursive-edit' is also bound to `C-x X a'.
-  +meow-alternate-state-key #'+meow-toggle-emacs-state)
+(defvar meow-emacs-state-keymap
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd +meow-alternate-state-key) #'+meow-toggle-emacs-state)
+    map)
+   "Keymap for EMACS state.
+Should only contain `+meow-toggle-emacs-state'.")
 
 (meow-define-state emacs
   "Meow EMACS state minor mode.

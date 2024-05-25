@@ -149,6 +149,12 @@ comments. Prevent that from running if necessary."
 
   ;; Use a consistent key for exiting EMACS state (see autoload/emacs-state.el)
   ;; and `meow-temp-normal'.
+  ;; We use 'C-]' as our binding to toggle this state, both in Motion and Emacs
+  ;; states. This binding was chosen based on the notion that it is rare to use
+  ;; its default binding `abort-recursive-edit'. It is rare to encounter
+  ;; recursive editing levels outside the minibuffer, and that specific case is
+  ;; handled by `doom/escape'.
+  ;; If it is really needed, `abort-recursive-edit' is also bound to `C-x X a'.
   (defvar +meow-alternate-state-key "C-]"
     "Key to switch to an alternate state in Meow.
 - Invoke `meow-temp-normal' in Motion state
