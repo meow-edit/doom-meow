@@ -158,7 +158,10 @@ switch to MOTION state."
 ;;;; Suggested bindings
 
   (cond ((modulep! +qwerty) (+meow--setup-qwerty))
-        ;; TODO add suggested bindings for remaining layouts
+        ((modulep! +qwertz) (+meow--setup-qwertz))
+        ((modulep! +dvorak) (+meow--setup-dvorak))
+        ((modulep! +dvp) (+meow--setup-dvp))
+        ((modulep! +colemak) (+meow--setup-colemak))
         (t nil))
 
 ;;;; Doom leader/localleader

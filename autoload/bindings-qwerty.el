@@ -1,7 +1,6 @@
 ;;; editor/meow/autoload/bindings-qwerty.el -*- lexical-binding: t; -*-
 
 ;;;###autoload
-
 (defun +meow--setup-qwerty ()
   (setq meow-cheatsheet-layout meow-cheatsheet-layout-qwerty)
   (meow-motion-overwrite-define-key
