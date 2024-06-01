@@ -44,14 +44,13 @@
         blink-cursor-blinks 0 ; blink forever
         blink-cursor-interval 0.15) ; blink time period
 
-  (add-hook! 'meow-insert-enter-hook
-    (defun my/meow-blink-cursor-start-a ()
-      (when my/meow-want-blink-cursor-in-insert
-        (blink-cursor-mode +1))))
-  (add-hook! 'meow-insert-exit-hook
-    (defun my/meow-blink-cursor-stop-a ()
-      (when my/meow-want-blink-cursor-in-insert
-        (blink-cursor-mode -1))))
+  ;; Toggle blink on entering/exiting insert mode
+  (add-hook 'meow-insert-mode-hook #'+meow-maybe-toggle-cursor-blink)
+
+  ;; When we switch windows, the window we switch to may be in a different state
+  ;; than the previous one
+  (advice-add #'meow--on-window-state-change
+              :after #'+meow-maybe-toggle-cursor-blink)
 
 ;;; Continuing commented lines
 
