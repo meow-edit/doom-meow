@@ -182,7 +182,8 @@ switch to MOTION state."
     ;; (We need a hook since this module is loaded before the bindings are, due to ':demand')
     (add-hook! 'doom-after-modules-config-hook
       (defun +meow-leader-move-code-map-h ()
-        (define-key doom-leader-map "k" (cons "code" doom-leader-code-map))))
+        (when (boundp 'doom-leader-code-map)
+          (define-key doom-leader-map "k" (cons "code" doom-leader-code-map)))))
 
     ;; Also note that the Git commands are now under 'SPC v', unlike in
     ;; :editor evil.
