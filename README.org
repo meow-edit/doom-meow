@@ -3,34 +3,47 @@
 #+created:  May 19, 2024
 #+since:    whenever v3 happens
 
-* TODO Description :unfold:
+* Description :unfold:
 
-TODO topic sentence
+This module integrates [[https://github.com/meow-edit/meow][Meow]] with Doom Emacs.
 
-- A 'port' of Doom's leader and localleader bindings to Meow's Keypad state.
+The integration consists of:
+
+- A 'port' of Doom's (emacs) leader and localleader bindings to Meow's Keypad state;
 
 - A cursor configuration that uses the 'bar' cursor shape to indicate the way
   Emacs' cursor positioning differs from other modal editors, with
   ~cursor-blink-mode~ rather than a shape change to indicate a switch to Insert
-  state.
+  state;
+
+- A custom =emacs= Meow state with minimal bindings, intended for modes that use
+  the keys bound in Motion state, and as a means of demonstrating the process of
+  defining a custom state;
 
 - Numerous other tweaks, including to the suggested bindings, to integrate with
   Doom better.
 
-TODO note: minimal modal 'layer'; do Emacs tutorial, Evil users
+It is recommended to read [[https://github.com/meow-edit/meow/blob/master/README.org][Meow's README]] prior to trying this module.
 
-** Maintainers
-- [[doom-user:][@nobody]]
+#+begin_quote
+Meow is designed as a minimal, dependency-free modal 'layer' on top of Emacs,
+preferring to leverage built-in functionality rather than reinventing the wheel.
+If it seems to be 'missing' a feature present in another modal system, it may be
+because the equivalent Emacs functionality is considered usable enough not to
+warrant a Meow-flavored reimplementation. Accordingly, it is suggested to become
+familiar with Emacs' basic concepts and features, at least up to the level
+taught in the Tutorial (=M-x help-with-tutorial=).
+#+end_quote
 
-[[doom-contrib-maintainer:][Become a maintainer?]]
+** Module flags
+- +qwerty, +qwertz, +dvorak, +dvp, +colemak :: Set up Meow's suggested bindings
+  for the respective layouts. If you don't use any of these flags, you will need
+  to set up bindings yourself; see [[https://github.com/meow-edit/meow/blob/master/GET_STARTED.org#set-up-command-layout][the relevant docs]].
 
-** TODO Module flags
-- +qwerty, +dvorak, etc :: Set up Meow's suggested bindings for the respective
-  layouts. If you don't use any of these, you will need to set up bindings
-  yourself; see (link to docs) for examples.
-  You will probably want to look at the files responsible for setting up the
+  You will probably want to look at the files responsible for defining the
   bindings (in this module's =autoload/= directory) in order to be aware of any
-  tweaks applied.
+  tweaks applied by this module. If the reason for a tweak is not documented in
+  its respective file, it probably is in =+qwerty=.
 
 ** Packages
 - [[doom-package:meow]]
@@ -49,7 +62,7 @@ TODO note: minimal modal 'layer'; do Emacs tutorial, Evil users
 [[id:01cffea4-3329-45e2-a892-95a384ab2338][Enable this module in your ~doom!~ block.]]
 (add =(meow +your-desired-flags...)= after the =:editor= section in =init.el=)
 
-The leader and localleader bindings are defined in [[doom-module::default
+The leader and localleader bindings are defined in [[doom-module::config default
 +bindings]], so that module is required for them to work.
 
 This module will not work smoothly with [[doom-module::editor evil]],
@@ -61,23 +74,66 @@ modules in your ~doom!~ block to use this one.
  󱌣 /This module's usage documentation is incomplete./ [[doom-contrib-module:][Complete it?]]
 #+end_quote
 
-Please refer to Meow's docs (TODO link) for any information not related to Doom
-or this module.
+Please refer to [[https://github.com/meow-edit/meow/blob/master/README.org][Meow's docs]] for any information not related to Doom or this
+module.
 
-** TODO Leader and localleader integration
-Briefly explain how it's implemented (Keypad, M-SPC, etc) and how to bind keys
-to them.
+** Leader and localleader integration
 
-* TODO Configuration
-#+begin_quote
- 󱌣 /This module's configuration documentation is incomplete./ [[doom-contrib-module:][Complete it?]]
-#+end_quote
+This module configures Meow's Keypad state such that it can be used to access
+Doom's leader/localleader bindings, as set up by [[doom-module::config default
++bindings]]. Note that since this module cannot be used with Evil, you'll be using
+Doom's Emacs leader/localleader bindings
+([[emacsdir:modules/config/default/+emacs-bindings.el]]), which are not the same as
+its Evil ones.
 
-** TODO Mode-specific Meow bindings
-Link to the issue where this is discussed.
+As described [[https://github.com/meow-edit/meow/blob/master/TUTORIAL.org#keypad][in Meow's documentation]], when a key other than =x= / =h= / =c= /
+=m= / =g= ( / =u=, which this module adds so that =SPC u= is =C-u=) is pressed
+in Keypad state, it is directly looked up in the leader keymap. This module sets
+=doom-leader-map= (bound to =C-c= by default) as the leader keymap. So, for example, =SPC s p= produces =C-c s p=.
 
-** TODO Disabling for certain modes
-Explain EMACS state and how to use it.
+Some tweaks were necessary in order to accomodate the differences of Keypad state -
+
+- ~doom-leader-code-map~ is bound to =k=, as =c= is taken by Keypad.
+
+- Localleader is bound to =l=, as =m= is taken.
+
+* Configuration
+
+** Cursor
+
+In Emacs, the cursor is always considered to be located /between/ two
+characters. In Vim, the cursor is always considered to be /on top of/ a
+character. Evil manages to accomplish the latter behavior, but Meow [[https://github.com/meow-edit/meow/discussions/87#discussion-3721642][does not
+attempt]] to do so. In order to help Evil/Vim users adjust, this module includes a
+custom cursor configuration -
+
+- The 'bar' cursor shape is used in most cases, as it sits between two
+  characters.
+  You can change this by setting any of the ~meow-cursor-type-*~ variables.
+
+- Since we don't use the block cursor shape to indicate Normal state, we instead
+  blink the cursor to indicate when we're in Insert state.
+  You can disable this by setting ~+meow-want-blink-cursor-in-insert~ to ~nil~.
+
+** Disabling bindings for certain modes
+
+In modes that bind unmodified keys, Meow starts in 'Motion' state. The default
+bindings for Motion state (with =+qwerty=) bind =j= and =k= to ~next-line~ and
+~previous-line~, respectively; and =SPC= triggers Keypad state. This is only
+useful in modes where moving over lines is a meaningful concept, and =SPC=
+doesn't have an important binding.
+
+For modes that don't fit the above description, this module defines a custom
+'Emacs' state. This state has only two bindings - =M-SPC= to trigger Keypad
+(this binding is also added in Insert state), and =C-]= to switch to Motion
+state. Once in Motion state, you can use =C-]= to switch to Meow's 'temp Normal'
+state if you need more of Meow's bindings.
+
+For example, to make ~pdf-view-mode~ start in Emacs state:
+#+begin_src emacs-lisp
+;; in $DOOMDIR/config.el
+(add-to-list 'meow-mode-state-list '(pdf-view-mode . emacs))
+#+end_src
 
 ** ~map!~ vs ~meow-define-keys~
 
@@ -87,13 +143,10 @@ functionality. ~(map! :map meow-normal-state-keymap ...)~ and ~(meow-define-keys
 far as this author is aware.
 
 There is one exception - when binding a key to another key, ~meow-define-keys~
-generates a command to execute that key, and binds to that. This isn't
-explicitly supported by ~map!~, and when you try it, it binds the key directly
-without a command wrapping it. This binding seems to get overridden by any
-command bound to the same key.
-
-** TODO changing 'word', 'symbol' definitions
-Include if my PR gets merged.
+generates a command to execute that key, and binds to that. ~map!~ doesn't
+explicitly support binding a key to another key, and when you try it, it binds
+the key directly without a command wrapping it. This binding seems to get
+overridden by any command bound to the same key.
 
 * Troubleshooting
 [[doom-report:][Report an issue?]]
@@ -114,7 +167,14 @@ Emacs' default undo mechanism:
 #+end_src
 
 * Frequently asked questions
-/This module has no FAQs yet./ [[doom-suggest-faq:][Ask one?]]
+
+** Mode-specific/state-specific Meow bindings
+Unlike Evil, Meow does not directly support keybindings specific to a particular
+mode or state. For example, there is no (direct) way to make =TAB= do one thing
+in =org-mode= and another in =emacs-lisp-mode=. This is an intentional
+limitation; see [[https://github.com/meow-edit/meow/pull/126#issuecomment-992004368][this issue comment]] for a discussion, and the recommended way of
+achieving this kind of functionality.
+
 
 * TODO Appendix
 #+begin_quote
