@@ -33,7 +33,7 @@
   ;; fact.
   ;; In addition, blink the cursor in insert state.
 
-  (defvar my/meow-want-blink-cursor-in-insert t
+  (defvar +meow-want-blink-cursor-in-insert t
     "Whether `blink-cursor-mode' should be enabled in INSERT state.")
 
   (setq meow-cursor-type-normal 'bar
@@ -57,17 +57,17 @@
   ;; Since `meow-open-below' just runs `newline-and-indent', it will perform
   ;; Doom's behavior of continuing commented lines (if
   ;; `+default-want-RET-continue-comments' is non-nil). Prevent this.
-  (defvar my/meow-want-meow-open-below-continue-comments nil
+  (defvar +meow-want-meow-open-below-continue-comments nil
     "If non-nil `meow-open-below' will continue commented lines.")
 
-  (defadvice! my/meow--newline-indent-and-continue-comments-a (&rest _)
-    "Support `my/meow-want-meow-open-below-continue-comments'.
+  (defadvice! +meow--newline-indent-and-continue-comments-a (&rest _)
+    "Support `+meow-want-meow-open-below-continue-comments'.
 Doom uses `+default--newline-indent-and-continue-comments-a' to continue
 comments. Prevent that from running if necessary."
     :before-while #'+default--newline-indent-and-continue-comments-a
     (interactive "*")
     (if (eq real-this-command #'meow-open-below)
-        my/meow-want-meow-open-below-continue-comments
+        +meow-want-meow-open-below-continue-comments
       t))
 
 ;;; Alternate states
