@@ -135,6 +135,18 @@ For example, to make ~pdf-view-mode~ start in Emacs state:
 (add-to-list 'meow-mode-state-list '(pdf-view-mode . emacs))
 #+end_src
 
+** Disabling expansion hints for some modes
+
+The expansion hints are known to work poorly with variable-width fonts (see [[https://github.com/meow-edit/meow/issues/110][this
+issue]]). If you encounter this problem, you should disable them for the modes in
+which you use those fonts -
+#+begin_src emacs-lisp
+;; in $DOOMDIR/config.el
+;; For example, to disable expansion hints in org-mode -
+(add-to-list 'meow-expand-exclude-mode-list 'org-mode)
+#+end_src
+
+
 ** ~map!~ vs ~meow-define-keys~
 
 Doom's ~map!~ and Meow's ~meow-define-keys~ are largely equivalent in terms of

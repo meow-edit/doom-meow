@@ -70,6 +70,14 @@ comments. Prevent that from running if necessary."
         +meow-want-meow-open-below-continue-comments
       t))
 
+
+;;; Expansion hints
+  ;; These should not be disabled anywhere by default; if users find that they
+  ;; cause problems due to variable-width fonts etc., they can configure this
+  ;; variable themselves.
+  (setq meow-expand-exclude-mode-list nil)
+
+
 ;;; Alternate states
 
   ;; Use a consistent key for exiting EMACS state and `meow-temp-normal'.
