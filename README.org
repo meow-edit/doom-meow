@@ -87,9 +87,9 @@ Doom's Emacs leader/localleader bindings
 its Evil ones.
 
 As described [[https://github.com/meow-edit/meow/blob/master/TUTORIAL.org#keypad][in Meow's documentation]], when a key other than =x= / =h= / =c= /
-=m= / =g= ( / =u=, which this module adds so that =SPC u= is =C-u=) is pressed
-in Keypad state, it is directly looked up in the leader keymap. This module sets
-=doom-leader-map= (bound to =C-c= by default) as the leader keymap. So, for example, =SPC s p= produces =C-c s p=.
+=m= / =g= is pressed in Keypad state, it is directly looked up in the leader
+keymap. This module sets =doom-leader-map= (bound to =C-c= by default) as the
+leader keymap. So, for example, =SPC s p= produces =C-c s p=.
 
 Some tweaks were necessary in order to accomodate the differences of Keypad state -
 

@@ -226,7 +226,7 @@ switch to MOTION state."
 
 ;;;;;; SPC u -> C-u
   ;; Like in Doom's evil config.
-  (add-to-list 'meow-keypad-start-keys '(?u . ?u))
+  (define-key doom-leader-map "u" #'meow-universal-argument)
 
 ;;;;; 'M-SPC'
 
