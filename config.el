@@ -193,7 +193,9 @@ switch to MOTION state."
     (add-hook! 'doom-after-modules-config-hook
       (defun +meow-leader-move-code-map-h ()
         (when (boundp 'doom-leader-code-map)
-          (define-key doom-leader-map "k" (cons "code" doom-leader-code-map)))))
+          (define-key doom-leader-map "k" (cons "code" doom-leader-code-map))
+          ;; Unbind the 'c' prefix; we'll use it in our localleader hack.
+          (define-key doom-leader-map "c" nil))))
 
     ;; Also note that the Git commands are now under 'SPC v', unlike in
     ;; :editor evil.
