@@ -165,7 +165,7 @@ overridden by any command bound to the same key.
 
 ** Prefix key descriptions in =which-key= popup
 These do not show up properly when Keypad state is used. It is unclear where to
-look for the source of the problem. The previous module also had [[https://github.com/meow-edit/doom-meow/issues/5][this issue]].
+look for the source of the problem. The previous module also had [[https://github.com/meow-edit/doom-meow-archive/issues/5][this issue]].
 
 ** Undo and [[doom-package:undo-fu]]
 Meow's ~meow-undo~ expects the command bound to ~meow--kbd-undo~ (default =C-/=)
