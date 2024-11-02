@@ -62,6 +62,9 @@ taught in the Tutorial (=M-x help-with-tutorial=).
 [[id:01cffea4-3329-45e2-a892-95a384ab2338][Enable this module in your ~doom!~ block.]]
 (add =(meow +your-desired-flags...)= after the =:editor= section in =init.el=)
 
+After you ~doom sync~ and restart Emacs, Meow will start in Normal state, so
+make sure that bindings have been set up; see [[*Module flags][Module flags]].
+
 The leader and localleader bindings are defined in [[doom-module::config default
 +bindings]], so that module is required for them to work.
 
