@@ -57,7 +57,11 @@ taught in the Tutorial (=M-x help-with-tutorial=).
 
 * Installation
 
-~mkdir -p ~/.doom.d/modules/editor && git clone https://github.com/meow-edit/doom-meow ~/.doom.d/modules/editor/meow~
+#+begin_src sh
+mkdir -p ~/.config/doom/modules/editor # or ~/.doom.d/modules/editor, if your Doom config is in ~/.doom.d
+cd $_ # change working directory to the one above
+git clone https://github.com/meow-edit/doom-meow meow
+#+end_src
 
 [[id:01cffea4-3329-45e2-a892-95a384ab2338][Enable this module in your ~doom!~ block.]]
 (add =(meow +your-desired-flags...)= after the =:editor= section in =init.el=)
