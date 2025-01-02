@@ -179,10 +179,18 @@ switch to MOTION state."
   ;; `meow--which-key-describe-keymap' problem.
   (when (modulep! :config default +bindings)
 
-    ;; Make Meow use `doom-leader-map' instead of `mode-specific-map' as the
-    ;; fallback for Keypad state. This allows us to use SPC in almost the same
-    ;; way as in :editor evil.
-    (setcdr (assq 'leader meow-keymap-alist) doom-leader-map)
+    ;; Doom uses a complicated system involving `general-override-mode' to set
+    ;; up its leader and localleader keys. I don't pretend to understand how it
+    ;; works. But as far as I can tell, we can rely on it to work in the
+    ;; following way -
+    ;; `doom-leader-alt-key' (default 'C-c') is treated as the leader key when
+    ;; Doom's emacs bindings are in use, and all leader keybindings should be
+    ;; accessible under this key.
+    ;; So we can simply tell Meow to prefix the Keypad key sequence with 'C-c',
+    ;; and all leader key bindings should be accessible when Keypad is invoked.
+    ;; With `meow-keypad' bound to 'SPC' as expected, this parallels the
+    ;; behavior in :editor evil.
+    (setq meow-keypad-leader-dispatch "C-c")
 
     ;; A minor tweak - 'SPC c' will translate to 'C-c' rather than invoking
     ;; `doom-leader-code-map'. So we must use another prefix key. 'k' was chosen
